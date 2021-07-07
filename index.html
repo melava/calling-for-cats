@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Calling for cats...</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Calling for cats</h1>
+        <div id="container">
+            <img src="#" alt="Waiting for the cat..." id="gif">
+        </div>
+        <footer>
+            <img src="PoweredBy_200_Horizontal_Light-Backgrounds_With_Logo.gif" alt="powered by GIPHY API">
+        </footer>
+        <script async defer>
+            const gif = document.getElementById('gif');
+            fetch('https://api.giphy.com/v1/gifs/random?api_key=OAdMTQn4ifaJbrBncQl0BrWlXpGYDL0r&tag=cats')
+            .then(response => response.json())
+            .then(response => {
+                gif.src = response.data.images.original.url;
+                gif.height = response.data.images.original.height;
+                gif.width = response.data.images.original.width;
+                gif.alt = response.data.title;
+            });
+
+        </script>
+    </body>
+</html>
