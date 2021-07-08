@@ -55,10 +55,10 @@ img {
 
 #error-message {
     position: absolute;
-    top: 0;
+    top: -27px;
     right: 0;
     left: 0;
-    font-size: 20px;
+    font-size: 18px;
     color: #db5939;
     background-color: rgba(69, 59, 165, 0.6);
 
