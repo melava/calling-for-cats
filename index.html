@@ -7,26 +7,72 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+
     </head>
     <body>
         <h1>Calling for cats</h1>
-        <div id="container">
-            <img src="#" alt="Waiting for the cat..." id="gif">
+        <div id="content-container">
+            <div id="gif-container">
+                <img src="#" alt="Waiting for the cat..." id="gif">
+            </div>
+            <button id="refresh">I want another cat GIF!</button>
+            <div class="inline-form-container">
+                <input type="search" name="query" id="query" placeholder="I'd like to see something else...">
+                <button type="submit" id="search">Go</button>
+            </div>
+
         </div>
         <footer>
             <img src="PoweredBy_200_Horizontal_Light-Backgrounds_With_Logo.gif" alt="powered by GIPHY API">
         </footer>
         <script async defer>
             const gif = document.getElementById('gif');
-            fetch('https://api.giphy.com/v1/gifs/random?api_key=OAdMTQn4ifaJbrBncQl0BrWlXpGYDL0r&tag=cats')
-            .then(response => response.json())
-            .then(response => {
-                gif.src = response.data.images.original.url;
-                gif.height = response.data.images.original.height;
-                gif.width = response.data.images.original.width;
-                gif.alt = response.data.title;
-            });
+            const searchInput = document.getElementById('query')
+            let buttons = Array.from(document.getElementsByTagName('button'));
+            
+            function removeError () {
+                const errorMess = document.getElementById('error-message');
+                if (errorMess) {
+                    errorMess.parentNode.removeChild(errorMess)
+                }
+            }
 
+            function searchForGif (e) {
+                let query = String;
+                e.target.id === 'search' ? query = searchInput.value : query = 'cat';
+                gif.src = '';
+                gif.alt = `Waiting for ${query} gif!`
+                gifFetching(query);
+            }
+            
+            function gifFetching (searchQuery) {
+                fetch('https://api.giphy.com/v1/gifs/random?api_key=OAdMTQn4ifaJbrBncQl0BrWlXpGYDL0r&tag=' + searchQuery)
+                .then(response => response.json())
+                .then(response => {
+                    gif.alt = response.data.title;
+                    gif.height = response.data.images.original.height;
+                    gif.width = response.data.images.original.width;
+                    gif.src = response.data.images.original.url;
+                })
+                .catch(err => {
+                    console.log(err);
+                    gifFetching('oops');
+                    const errorMessage = document.createElement('div');
+                    errorMessage.id = 'error-message';
+                    errorMessage.textContent = 'Uh oh this search was not conclusive :\'( \n Try another search!';
+                    gif.parentNode.appendChild(errorMessage)
+                })
+            }
+
+            window.onload = () => {
+                searchInput.value = '';
+                gifFetching('cat');
+            }
+            buttons.forEach(button => {
+                button.addEventListener('click', searchForGif)
+                button.addEventListener('click', removeError)
+            });
         </script>
     </body>
 </html>
