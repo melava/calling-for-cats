@@ -72,10 +72,6 @@ button, input {
     background-color: rgb(230, 193, 124);
 }
 
-#query {
-    width: 350px;
-}
-
 footer {
     position: absolute;
     bottom: 0;
