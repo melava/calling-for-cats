@@ -1,5 +1,5 @@
 :root {
-    --maxHeightGif: calc(100vh - 350px);
+    --maxHeightGif: calc(100vh - 300px);
     --maxWidthGif: calc(100vw - 40px)
 }
 
